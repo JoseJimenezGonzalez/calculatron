@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity2">
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Configuración"
+        android:textSize="24sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+    </TextView>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilCuentaAtras"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Cuenta atrás"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv1"
+        android:layout_marginTop="15dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tietCuentaAtras"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number">
+        </com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilMinimo"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Mínimo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tilCuentaAtras"
+        app:layout_constraintEnd_toEndOf="@id/guidelineVertical1"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tietMinimo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number">
+        </com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilMaximo"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Máximo"
+        app:layout_constraintStart_toStartOf="@id/guidelineVertical1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tilCuentaAtras"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tietMaximo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number">
+        </com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tvOperacionesSeleccionadas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tilMinimo"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Operaciones seleccionadas"
+        android:layout_marginTop="15dp"
+        android:textSize="16sp">
+    </TextView>
+
+    <CheckBox
+        android:id="@+id/sumarCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvOperacionesSeleccionadas"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/restarCheckbox"
+        android:layout_marginTop="15dp"
+        android:text="Sumar"/>
+
+    <CheckBox
+        android:id="@+id/restarCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvOperacionesSeleccionadas"
+        app:layout_constraintStart_toEndOf="@id/sumarCheckbox"
+        app:layout_constraintEnd_toStartOf="@id/multiplicarCheckbox"
+        android:layout_marginTop="15dp"
+        android:text="Restar"/>
+
+    <CheckBox
+        android:id="@+id/multiplicarCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvOperacionesSeleccionadas"
+        app:layout_constraintStart_toEndOf="@id/restarCheckbox"
+        app:layout_constraintEnd_toStartOf="@id/dividirCheckbox"
+        android:layout_marginTop="15dp"
+        android:text="Multiplicar"/>
+
+    <CheckBox
+        android:id="@+id/dividirCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvOperacionesSeleccionadas"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/multiplicarCheckbox"
+        android:layout_marginTop="15dp"
+        android:text="Dividir"/>
+
+    <TextView
+        android:id="@+id/tvAnimacion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sumarCheckbox"
+        android:text="Animacion"
+        android:textSize="16sp"
+        android:layout_marginTop="15dp">
+    </TextView>
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineVertical1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
