@@ -14,7 +14,8 @@
         android:textSize="24sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp">
     </TextView>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -135,6 +136,16 @@
         android:layout_marginTop="15dp">
     </TextView>
 
+    <Button
+        android:id="@+id/btnGuardarConfiguracion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvAnimacion"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:text="Guardar configuracion">
+    </Button>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineVertical1"
