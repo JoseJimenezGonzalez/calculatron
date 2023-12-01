@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="tiempo_predeterminado">20</integer>
+    <bool name="animaciones_activadas">false</bool>
+    <string-array name="operaciones_permitidas">
+        <item>+</item>
+        <item>-</item>
+    </string-array>
+    <integer name="valor_maximo_predeterminado">10</integer>
+    <integer name="valor_minimo_predeterminado">0</integer>
+</resources>
