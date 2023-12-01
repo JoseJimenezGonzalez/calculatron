@@ -24,7 +24,7 @@ class MainActivity2 : AppCompatActivity() {
 
         binding.btnGuardarConfiguracion.setOnClickListener {
             // Modificar el tiempo predeterminado
-            val nuevoTiempoPredeterminado = binding.tietCuentaAtras.text.toString().toInt()
+            val nuevoTiempoPredeterminado = binding.tietCuentaAtras.text.toString().toInt() * 1000
             val claveTiempoPredeterminado = getString(R.integer.tiempo_predeterminado)
             sharedPreferences.edit {
                 putInt(claveTiempoPredeterminado, nuevoTiempoPredeterminado)
