@@ -2,6 +2,7 @@ package com.example.calculatron
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -29,6 +30,11 @@ class MainActivity2 : AppCompatActivity() {
             sharedPreferences.edit {
                 putInt(claveTiempoPredeterminado, nuevoTiempoPredeterminado)
             }
+
+
+            //Volver a la main activity
+            val intent = Intent(this@MainActivity2, MainActivity::class.java)
+            startActivity(intent)
         }
     }
 }
