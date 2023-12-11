@@ -8,4 +8,6 @@
     </string-array>
     <integer name="valor_maximo_predeterminado">10</integer>
     <integer name="valor_minimo_predeterminado">0</integer>
+    <integer name="acertadas_predeterminado">0</integer>
+    <integer name="falladas_predeterminado">0</integer>
 </resources>

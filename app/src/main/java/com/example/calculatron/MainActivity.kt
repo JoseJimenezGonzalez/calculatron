@@ -14,6 +14,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private var tiempoRestante = 0 // Inicializar con 0 para evitar nullPointerException
+    private var acertadas = 0 //Inicializar con 0 para evitar excepcion
+    private var falladas = 0 //Inicializar con 0 para evitar excepcion
     private lateinit var sharedPreferences: SharedPreferences
 
 
@@ -40,6 +42,13 @@ class MainActivity : AppCompatActivity() {
                 binding.tvTiempoRestante.text = "Se ha agotado el tiempo!"
             }
         }.start()
+
+        //Obtener las acertadas predeterminadas guardadas en el sharedpreferences
+        acertadas = sharedPreferences.getInt(getString(R.integer.acertadas_predeterminado), 0)
+        binding.tvAcertadas.text = "Acertadas: " + acertadas.toString()
+        //Obtener las falladas predeterminadas guardadas en el sharedpreferences
+        falladas = sharedPreferences.getInt(getString(R.integer.falladas_predeterminado), 0)
+        binding.tvFalladas.text = "Falladas: " + falladas.toString()
 
         binding.ivOpciones.setOnClickListener {
             val intent = Intent(this@MainActivity, MainActivity2::class.java)
