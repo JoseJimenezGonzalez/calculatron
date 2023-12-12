@@ -66,7 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/edtEntradaUsuario"
         app:layout_constraintTop_toBottomOf="@id/tvCuentaAnterior"
         android:textSize="20sp"
         android:text="Cuenta actual"
@@ -85,6 +85,20 @@
         android:layout_marginTop="25dp">
     </TextView>
 
+    <EditText
+        android:id="@+id/edtEntradaUsuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Resultado"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvCuentaActual"
+        app:layout_constraintTop_toTopOf="@id/tvCuentaActual"
+        app:layout_constraintBottom_toBottomOf="@id/tvCuentaActual"
+        android:inputType="none"
+        android:focusable="false"
+        android:focusableInTouchMode="false"/>
+
     <GridLayout
         android:id="@+id/gridLayout"
         android:layout_width="match_parent"
@@ -100,61 +114,83 @@
         android:useDefaultMargins="false"
         android:layout_margin="25dp">
 
-        <Button
-            android:text="C" />
+        <!-- Botones existentes -->
 
         <Button
-            android:text="BS" />
+            android:text="C"
+            android:onClick="onButtonClick" />
 
         <Button
-            android:text="/" />
+            android:text="BS"
+            android:onClick="onButtonClick" />
 
         <Button
-            android:text="x" />
+            android:text="/"
+            android:onClick="onButtonClick" />
 
         <Button
-            android:text="7" />
+            android:text="x"
+            android:onClick="onButtonClick" />
 
         <Button
-            android:text="8" />
+            android:text="7"
+            android:onClick="onButtonClick" />
 
         <Button
-            android:text="9" />
+            android:text="8"
+            android:onClick="onButtonClick" />
 
         <Button
-            android:text="-" />
+            android:text="9"
+            android:onClick="onButtonClick" />
 
         <Button
-            android:text="4" />
+            android:text="-"
+            android:onClick="onButtonClick" />
 
         <Button
-            android:text="5" />
+            android:text="4"
+            android:onClick="onButtonClick" />
 
         <Button
-            android:text="6" />
+            android:text="5"
+            android:onClick="onButtonClick" />
 
         <Button
-            android:text="+" />
+            android:text="6"
+            android:onClick="onButtonClick" />
 
         <Button
-            android:text="1" />
+            android:text="+"
+            android:onClick="onButtonClick" />
 
         <Button
-            android:text="2" />
+            android:text="1"
+            android:onClick="onButtonClick" />
 
         <Button
-            android:text="3" />
+            android:text="2"
+            android:onClick="onButtonClick" />
+
+        <Button
+            android:text="3"
+            android:onClick="onButtonClick" />
 
         <Button
             android:layout_gravity="fill_vertical"
             android:layout_rowSpan="2"
-            android:text="=" />
+            android:text="="
+            android:onClick="onButtonClick" />
+
         <Button
             android:layout_gravity="fill_horizontal"
             android:layout_columnSpan="2"
-            android:text="0" />
+            android:text="0"
+            android:onClick="onButtonClick" />
+
         <Button
-            android:text="." />
+            android:text="."
+            android:onClick="onButtonClick" />
     </GridLayout>
 
 

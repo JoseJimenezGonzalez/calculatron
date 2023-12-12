@@ -7,6 +7,12 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import android.widget.GridLayout
+import android.widget.Toast
 import com.example.calculatron.databinding.ActivityMainBinding
 import java.util.*
 
@@ -29,6 +35,12 @@ class MainActivity : AppCompatActivity() {
     private var operandoActual1 = 0
     private var operandoActual2 = 0
 
+    // Nuevas variables para almacenar cuentas anteriores y siguientes
+    private var cuentaAnterior: String = ""
+    private var cuentaActual: String = ""
+    private var cuentaSiguiente: String = ""
+    private var operacionActual = ""
+
     private lateinit var sharedPreferences: SharedPreferences
 
 
@@ -36,8 +48,23 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Mueve este bloque después de inflar el diseño
+        val edtInput: EditText = findViewById(R.id.edtEntradaUsuario)
+        val gridLayout: GridLayout = findViewById(R.id.gridLayout)
+
+        // Iterar a través de los botones en el GridLayout
+        for (i in 0 until gridLayout.childCount) {
+            val button = gridLayout.getChildAt(i) as? Button
+
+            // Asignar la función onButtonClick a los botones numéricos y operadores
+            button?.setOnClickListener {
+                onButtonClick(it, edtInput)
+            }
+        }
 
 
         sharedPreferences = getSharedPreferences("nombrePref", Context.MODE_PRIVATE)
@@ -88,10 +115,91 @@ class MainActivity : AppCompatActivity() {
         return arrayOf(operandoActual1, operandoActual2)
     }
 
-    fun generarCuenta(){
-        //Genero el string de la cuenta completa
+    fun generarCuenta(): Triple<String, String, String> {
+        val operacion = generarOperacion()
+        val operandos = generarOperandos()
+        val resultado = obtenerResultado(operacion, operandos[0], operandos[1])
+
+        // Actualizar cuentas anteriores y siguientes
+        cuentaAnterior = cuentaActual
+        operacionActual = operacion  // Agrega esta línea para actualizar la operación actual
+        cuentaActual = "${operandos[0]} $operacion ${operandos[1]}"
+        cuentaSiguiente = generarCuentaString()
+
+        return Triple(cuentaAnterior, cuentaActual, cuentaSiguiente)
     }
-    fun obtenerRusultado(){
-        //Me genera el resultado de la cuenta para comprobar el resultado
+    private fun obtenerResultado(operacion: String, operando1: Int, operando2: Int): Int {
+        return when (operacion) {
+            "+" -> operando1 + operando2
+            "-" -> operando1 - operando2
+            "*" -> operando1 * operando2
+            else -> throw IllegalArgumentException("Operación no válida: $operacion")
+        }
+    }
+
+
+    fun comprobarResultado(respuestaUsuario: Int) {
+        // Obtener el resultado de la cuenta actual y comparar con la respuesta del usuario
+        val resultadoReal = obtenerResultado(operacionActual, operandoActual1, operandoActual2)
+
+        if (respuestaUsuario == resultadoReal) {
+            // La respuesta es correcta
+            acertadas++
+        } else {
+            // La respuesta es incorrecta
+            falladas++
+        }
+
+        // Actualizar la interfaz de usuario con las nuevas estadísticas
+        binding.tvAcertadas.text = "Acertadas: $acertadas"
+        binding.tvFalladas.text = "Falladas: $falladas"
+
+        // Generar una nueva cuenta
+        val cuentas = generarCuenta()
+        // Mostrar las cuentas en la interfaz de usuario, por ejemplo:
+        binding.tvCuentaAnterior.text = cuentas.first
+        binding.tvCuentaActual.text = cuentas.second
+        binding.tvCuentaSiguiente.text = cuentas.third
+    }
+
+    private fun generarCuentaString(): String {
+        val operacion = generarOperacion()
+        val operandos = generarOperandos()
+        return "${operandos[0]} $operacion ${operandos[1]}"
+    }
+
+    fun onButtonClick(view: View, editText: EditText) {
+        if (view is Button) {
+            val buttonText = view.text.toString()
+            val currentText = editText.text.toString()
+
+            when (buttonText) {
+                "=" -> {
+                    // Realizar cálculos cuando se presiona el botón "="
+                    if (currentText.isNotEmpty()) {
+                        val respuestaUsuario = currentText.toInt()
+                        comprobarResultado(respuestaUsuario)
+                    }
+                    // Limpiar el texto del EditText
+                    editText.setText("")
+                }
+                "C" -> {
+                    // Limpiar el texto del EditText y resetear la operación actual
+                    editText.setText("")
+                    operacionActual = ""
+                }
+                "BS" -> {
+                    // Eliminar el último carácter cuando se presiona el botón "BS"
+                    if (currentText.isNotEmpty()) {
+                        editText.setText(currentText.substring(0, currentText.length - 1))
+                    }
+                }
+                else -> {
+                    // Agregar el texto del botón al EditText y actualizar la operación actual
+                    editText.setText(currentText + buttonText)
+                    operacionActual = buttonText
+                }
+            }
+        }
     }
 }

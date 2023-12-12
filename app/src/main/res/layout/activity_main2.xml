@@ -111,19 +111,9 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tvOperacionesSeleccionadas"
         app:layout_constraintStart_toEndOf="@id/restarCheckbox"
-        app:layout_constraintEnd_toStartOf="@id/dividirCheckbox"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="15dp"
         android:text="Multiplicar"/>
-
-    <CheckBox
-        android:id="@+id/dividirCheckbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tvOperacionesSeleccionadas"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/multiplicarCheckbox"
-        android:layout_marginTop="15dp"
-        android:text="Dividir"/>
 
     <TextView
         android:id="@+id/tvAnimacion"
