@@ -7,14 +7,12 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.GridLayout
-import android.widget.Toast
 import com.example.calculatron.databinding.ActivityMainBinding
-import java.util.*
+import java.util.Random
 
 class MainActivity : AppCompatActivity() {
 
@@ -90,7 +88,7 @@ class MainActivity : AppCompatActivity() {
         falladas = sharedPreferences.getInt(getString(R.integer.falladas_predeterminado), 0)
         binding.tvFalladas.text = "Falladas: " + falladas.toString()
         //Obtener el maximo predeterminado guardado en el sharedpreferences
-        maximo = sharedPreferences.getInt(getString(R.integer.valor_maximo_predeterminado), 0)
+        maximo = sharedPreferences.getInt(getString(R.integer.valor_maximo_predeterminado), 10)
 
         //Obtener el minimo predeterminado guardado en el sharedpreferences
         minimo = sharedPreferences.getInt(getString(R.integer.valor_minimo_predeterminado), 0)
