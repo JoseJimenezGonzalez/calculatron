@@ -112,6 +112,8 @@ class MainActivity : AppCompatActivity() {
         //Me genera los numeros que estan entre el minimo y el maximo
         operandoActual1 = random.nextInt(maximo - minimo + 1) + minimo
         operandoActual2 = random.nextInt(maximo - minimo + 1) + minimo
+        //No me muestra los operandos
+        binding.tvOperandos.text = "operando actual: ${operandoActual1} y ${operandoActual2}"
         return arrayOf(operandoActual1, operandoActual2)
     }
 
