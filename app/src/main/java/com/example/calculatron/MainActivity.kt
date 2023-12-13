@@ -50,7 +50,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Mueve este bloque después de inflar el diseño
+        sharedPreferences = getSharedPreferences("nombrePref", Context.MODE_PRIVATE)
+
+        //Teclado y entrada de datos de usuario
         val edtInput: EditText = findViewById(R.id.edtEntradaUsuario)
         val gridLayout: GridLayout = findViewById(R.id.gridLayout)
 
@@ -63,9 +65,6 @@ class MainActivity : AppCompatActivity() {
                 onButtonClick(it, edtInput)
             }
         }
-
-
-        sharedPreferences = getSharedPreferences("nombrePref", Context.MODE_PRIVATE)
 
         // Obtener el tiempo predeterminado guardado en SharedPreferences
         tiempoRestante = sharedPreferences.getInt(getString(R.integer.tiempo_predeterminado), 20000)
@@ -97,6 +96,8 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this@MainActivity, MainActivity2::class.java)
             startActivity(intent)
         }
+
+        generarOperandos()
     }
     fun generarOperacion(): String {
         val operacionesPermitidas = getResources().getStringArray(R.array.operaciones_permitidas)
