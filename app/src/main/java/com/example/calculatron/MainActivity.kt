@@ -7,6 +7,8 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.preference.PreferenceManager
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -22,24 +24,18 @@ class MainActivity : AppCompatActivity() {
 
 
     private var tiempoRestante = 0 // Inicializar con 0 para evitar nullPointerException
-    private var acertadas = 0 //Inicializar con 0 para evitar excepcion
-    private var falladas = 0 //Inicializar con 0 para evitar excepcion
+    private var acertadas = 0
+    private var falladas = 0
 
     //Maximo y minimo
-    private var maximo = 10 // Inicializo a 10 para evitar excepcion
-    private var minimo = 0 // Inicializo a 0 para evitar excepcion
-
-    //Cuenta actual
-    private var operandoActual1 = 0
-    private var operandoActual2 = 0
+    var maximo = 10 // Inicializo a 10 para evitar excepcion
+    var minimo = 0 // Inicializo a 0 para evitar excepcion
 
     // Nuevas variables para almacenar cuentas anteriores y siguientes
-    private var cuentaAnterior: String = ""
-    private var cuentaActual: String = ""
-    private var cuentaSiguiente: String = ""
     private var operacionActual = ""
+    private var operandosActuales = arrayOf(0, 0)
 
-    private lateinit var sharedPreferences: SharedPreferences
+    private val nombrePref = "mis_preferencias"
 
 
     @SuppressLint("ResourceType")
@@ -50,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        sharedPreferences = getSharedPreferences("nombrePref", Context.MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences(nombrePref, Context.MODE_PRIVATE)
 
         //Teclado y entrada de datos de usuario
         val edtInput: EditText = findViewById(R.id.edtEntradaUsuario)
@@ -80,94 +76,97 @@ class MainActivity : AppCompatActivity() {
             }
         }.start()
 
-        //Obtener las acertadas predeterminadas guardadas en el sharedpreferences
-        acertadas = sharedPreferences.getInt(getString(R.integer.acertadas_predeterminado), 0)
-        binding.tvAcertadas.text = "Acertadas: " + acertadas.toString()
-        //Obtener las falladas predeterminadas guardadas en el sharedpreferences
-        falladas = sharedPreferences.getInt(getString(R.integer.falladas_predeterminado), 0)
-        binding.tvFalladas.text = "Falladas: " + falladas.toString()
+
         //Obtener el maximo predeterminado guardado en el sharedpreferences
-        maximo = sharedPreferences.getInt(getString(R.integer.valor_maximo_predeterminado), 10)
+        maximo = sharedPreferences.getInt("valor_maximo_predeterminado", 10)
 
         //Obtener el minimo predeterminado guardado en el sharedpreferences
-        minimo = sharedPreferences.getInt(getString(R.integer.valor_minimo_predeterminado), 0)
+        minimo = sharedPreferences.getInt("valor_minimo_predeterminado", 0)
 
         binding.ivOpciones.setOnClickListener {
             val intent = Intent(this@MainActivity, MainActivity2::class.java)
             startActivity(intent)
         }
 
-        generarOperandos()
+        //Meter codigo
+
+
+        binding.tvCuentaActual.text = generarCuentaString()
+        Log.e("operacion actual", "$operacionActual")
+        Log.e("operandos actuales", "op1${operandosActuales[0]}, op2${operandosActuales[1]}")
     }
     fun generarOperacion(): String {
         val operacionesPermitidas = getResources().getStringArray(R.array.operaciones_permitidas)
         val randomOperationIndex = random.nextInt(operacionesPermitidas.size)
+        Log.e("generarOperacion()", "Return: ${operacionesPermitidas[randomOperationIndex]}")
+        operacionActual = operacionesPermitidas[randomOperationIndex]
         return operacionesPermitidas[randomOperationIndex]
     }
 
-    //0 -> primer operando
-    //1 -> segundo operando
     fun generarOperandos(): Array<Int>{
         //Me genera los numeros que estan entre el minimo y el maximo
-        operandoActual1 = random.nextInt(maximo - minimo + 1) + minimo
-        operandoActual2 = random.nextInt(maximo - minimo + 1) + minimo
-        //No me muestra los operandos
-        binding.tvOperandos.text = "operando actual: ${operandoActual1} y ${operandoActual2}"
+        var operandoActual1 = random.nextInt(maximo - minimo + 1) + minimo
+        var operandoActual2 = random.nextInt(maximo - minimo + 1) + minimo
+        Log.e("generarOperandos()", "Return: op1$operandoActual1, op2$operandoActual2")
+        operandosActuales = arrayOf(operandoActual1, operandoActual2)
         return arrayOf(operandoActual1, operandoActual2)
     }
 
-    fun generarCuenta(): Triple<String, String, String> {
-        val operacion = generarOperacion()
-        val operandos = generarOperandos()
-        val resultado = obtenerResultado(operacion, operandos[0], operandos[1])
-
-        // Actualizar cuentas anteriores y siguientes
-        cuentaAnterior = cuentaActual
-        operacionActual = operacion  // Agrega esta línea para actualizar la operación actual
-        cuentaActual = "${operandos[0]} $operacion ${operandos[1]}"
-        cuentaSiguiente = generarCuentaString()
-
-        return Triple(cuentaAnterior, cuentaActual, cuentaSiguiente)
-    }
-    private fun obtenerResultado(operacion: String, operando1: Int, operando2: Int): Int {
-        return when (operacion) {
-            "+" -> operando1 + operando2
-            "-" -> operando1 - operando2
-            "*" -> operando1 * operando2
-            else -> throw IllegalArgumentException("Operación no válida: $operacion")
-        }
-    }
 
 
     fun comprobarResultado(respuestaUsuario: Int) {
-        // Obtener el resultado de la cuenta actual y comparar con la respuesta del usuario
-        val resultadoReal = obtenerResultado(operacionActual, operandoActual1, operandoActual2)
-
-        if (respuestaUsuario == resultadoReal) {
-            // La respuesta es correcta
-            acertadas++
-        } else {
-            // La respuesta es incorrecta
-            falladas++
+        when (operacionActual) {
+            "+" -> {
+                val calculoResultado = operandosActuales[0] + operandosActuales[1]
+                if(respuestaUsuario == calculoResultado){
+                    acertadas++
+                    binding.tvAcertadas.text = "Acertadas: $acertadas"
+                }else{
+                    falladas++
+                    binding.tvFalladas.text = "Falladas: $falladas"
+                }
+            }
+            "-" -> {
+                val calculoResultado = operandosActuales[0] - operandosActuales[1]
+                if(respuestaUsuario == calculoResultado){
+                    acertadas++
+                    binding.tvAcertadas.text = "Acertadas: $acertadas"
+                }else{
+                    falladas++
+                    binding.tvFalladas.text = "Falladas: $falladas"
+                }
+            }
+            "*" -> {
+                val calculoResultado = operandosActuales[0] * operandosActuales[1]
+                if(respuestaUsuario == calculoResultado){
+                    acertadas++
+                    binding.tvAcertadas.text = "Acertadas: $acertadas"
+                }else{
+                    falladas++
+                    binding.tvFalladas.text = "Falladas: $falladas"
+                }
+            }
         }
-
-        // Actualizar la interfaz de usuario con las nuevas estadísticas
-        binding.tvAcertadas.text = "Acertadas: $acertadas"
-        binding.tvFalladas.text = "Falladas: $falladas"
-
-        // Generar una nueva cuenta
-        val cuentas = generarCuenta()
-        // Mostrar las cuentas en la interfaz de usuario, por ejemplo:
-        binding.tvCuentaAnterior.text = cuentas.first
-        binding.tvCuentaActual.text = cuentas.second
-        binding.tvCuentaSiguiente.text = cuentas.third
     }
 
     private fun generarCuentaString(): String {
         val operacion = generarOperacion()
         val operandos = generarOperandos()
-        return "${operandos[0]} $operacion ${operandos[1]}"
+        Log.e("generarCuentaString()", "Return: op$operacion, op1${operandos[0]}, op2${operandos[1]}")
+        return "${operandos[0]} $operacion ${operandos[1]} = "
     }
+
+
+
+
+
+
+
+
+
+
+
+    //teclado
 
     fun onButtonClick(view: View, editText: EditText) {
         if (view is Button) {

@@ -6,11 +6,14 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceManager
 import androidx.core.content.edit
 import com.example.calculatron.databinding.ActivityMain2Binding
 import com.example.calculatron.databinding.ActivityMainBinding
 
 class MainActivity2 : AppCompatActivity() {
+
+    private val nombrePref = "mis_preferencias"
 
     private lateinit var binding: ActivityMain2Binding
     @SuppressLint("ResourceType")
@@ -21,7 +24,7 @@ class MainActivity2 : AppCompatActivity() {
         setContentView(binding.root)
 
         // Obtener una referencia a SharedPreferences
-        val sharedPreferences: SharedPreferences = getSharedPreferences("nombrePref", Context.MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences(nombrePref, Context.MODE_PRIVATE)
 
         binding.btnGuardarConfiguracion.setOnClickListener {
             //Hay problema si no cambio algo
