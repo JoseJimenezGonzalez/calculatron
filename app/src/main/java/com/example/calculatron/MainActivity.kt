@@ -7,7 +7,6 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.preference.PreferenceManager
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -82,10 +81,11 @@ class MainActivity : AppCompatActivity() {
         //Meter codigo
 
 
-        generarOperacion()
         operandoActual1 = generarOperandos()
         operandoActual2 = generarOperandos()
-        Log.e("operacion actual", "$operacionActual")
+        generarOperacion()
+
+        Log.e("operacion actual", operacionActual)
         Log.e("operandos actuales", "op1$operandoActual1, op2$operandoActual2")
 
         binding.tvPrimerOperando.text = operandoActual1.toString()
