@@ -19,6 +19,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val random = Random()
+    private lateinit var countDownTimer: CountDownTimer
+
 
 
     private var tiempoRestante = 0 // Inicializar con 0 para evitar nullPointerException
@@ -66,11 +68,25 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Obtener el tiempo predeterminado guardado en SharedPreferences
+
+
+        binding.ivOpciones.setOnClickListener {
+            val intent = Intent(this@MainActivity, MainActivity2::class.java)
+            startActivity(intent)
+        }
+
+        //Meter codigo aquí
         tiempoRestante = sharedPreferences.getInt("tiempo_predeterminado", 20000)
+        iniciarTemporizador()
+        pintarCuentas()
+        Log.e("Mierda", "Return: $operacionActual")
+        Log.e("Mierda", "Return: $operacionFutura")
 
-        object : CountDownTimer(tiempoRestante.toLong(), 1000) {
 
+    }
+
+    private fun iniciarTemporizador() {
+        countDownTimer = object : CountDownTimer(tiempoRestante.toLong(), 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 binding.tvTiempoRestante.text = "Tiempo restante: " + millisUntilFinished / 1000
             }
@@ -85,25 +101,43 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }.start()
+    }
 
-        binding.ivOpciones.setOnClickListener {
-            val intent = Intent(this@MainActivity, MainActivity2::class.java)
-            startActivity(intent)
+    override fun onPause() {
+        super.onPause()
+        countDownTimer.cancel()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        countDownTimer.cancel()
+    }
+
+    fun generarOperacion(): String {
+        val operacionesPermitidas = getResources().getStringArray(R.array.operaciones_permitidas)
+        val sumaPermitida = resources.getBoolean(R.bool.suma_permitida)
+        val restaPermitida = resources.getBoolean(R.bool.resta_permitida)
+        val multiplicacionPermitida = resources.getBoolean(R.bool.multiplicacion_permitida)
+
+        // Filtrar las operaciones permitidas según las preferencias
+        val operacionesFiltradas = mutableListOf<String>()
+        if (sumaPermitida) operacionesFiltradas.add("+")
+        if (restaPermitida) operacionesFiltradas.add("-")
+        if (multiplicacionPermitida) operacionesFiltradas.add("*")
+
+        // Verificar si hay operaciones permitidas
+        if (operacionesFiltradas.isEmpty()) {
+            // Si no hay operaciones permitidas, retornar cadena vacía o manejar según tu lógica
+            return ""
         }
 
-        //Meter codigo aquí
-        pintarCuentas()
-        Log.e("Mierda", "Return: $operacionActual")
-        Log.e("Mierda", "Return: $operacionFutura")
+        val randomOperationIndex = random.nextInt(operacionesFiltradas.size)
+        val operacionSeleccionada = operacionesFiltradas[randomOperationIndex]
 
+        Log.e("generarOperacion()", "Return: $operacionSeleccionada")
+        return operacionSeleccionada
+    }
 
-    }
-    fun generarOperacion(): String{
-        val operacionesPermitidas = getResources().getStringArray(R.array.operaciones_permitidas)
-        val randomOperationIndex = random.nextInt(operacionesPermitidas.size)
-        Log.e("generarOperacion()", "Return: ${operacionesPermitidas[randomOperationIndex]}")
-        return operacionesPermitidas[randomOperationIndex]
-    }
 
     fun generarOperandos(): Int {
         //Obtener el maximo predeterminado guardado en el sharedpreferences

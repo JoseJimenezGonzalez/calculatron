@@ -1,15 +1,11 @@
 package com.example.calculatron
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.preference.PreferenceManager
 import androidx.core.content.edit
 import com.example.calculatron.databinding.ActivityMain2Binding
-import com.example.calculatron.databinding.ActivityMainBinding
 
 class MainActivity2 : AppCompatActivity() {
 
@@ -25,21 +21,31 @@ class MainActivity2 : AppCompatActivity() {
         // Obtener una referencia a SharedPreferences
         val sharedPreferences = getSharedPreferences(nombrePref, Context.MODE_PRIVATE)
 
+        // Inicializar CheckBoxes con valores de SharedPreferences
+        binding.sumarCheckbox.isChecked = sharedPreferences.getBoolean("suma_permitida", true)
+        binding.restarCheckbox.isChecked = sharedPreferences.getBoolean("resta_permitida", true)
+        binding.multiplicarCheckbox.isChecked = sharedPreferences.getBoolean("multiplicacion_permitida", false)
+
         binding.btnGuardarConfiguracion.setOnClickListener {
-            //Hay problema si no cambio algo
             // Modificar el tiempo predeterminado
             val nuevoTiempoPredeterminado = binding.tietCuentaAtras.text.toString().toInt() * 1000
-            //Modificar el valor maximo predeterminado
+            // Modificar el valor maximo predeterminado
             val nuevoValorMaximo = binding.tietMaximo.text.toString().toInt()
-            //Modificar el valor minimo predeterminado
+            // Modificar el valor minimo predeterminado
             val nuevoValorMinimo = binding.tietMinimo.text.toString().toInt()
+
+            // Guardar estado de las CheckBoxes
             sharedPreferences.edit {
                 putInt("tiempo_predeterminado", nuevoTiempoPredeterminado)
                 putInt("valor_maximo_predeterminado", nuevoValorMaximo)
                 putInt("valor_minimo_predeterminado", nuevoValorMinimo)
+                putBoolean("suma_permitida", binding.sumarCheckbox.isChecked)
+                putBoolean("resta_permitida", binding.restarCheckbox.isChecked)
+                putBoolean("multiplicacion_permitida", binding.multiplicarCheckbox.isChecked)
                 apply()
             }
-            //Volver a la main activity
+
+            // Volver a la MainActivity
             val intent = Intent(this@MainActivity2, MainActivity::class.java)
             startActivity(intent)
         }
