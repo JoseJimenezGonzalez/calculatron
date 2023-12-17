@@ -2,16 +2,7 @@
 <resources>
     <integer name="tiempo_predeterminado">20</integer>
     <bool name="animaciones_activadas">false</bool>
-    <string-array name="operaciones_permitidas">
-        <item>+</item>
-        <item>-</item>
-        <item>*</item>
-    </string-array>
-    <string-array name="operaciones_permitidas_boolean">
-        <item>true</item> <!-- Suma -->
-        <item>true</item> <!-- Resta -->
-        <item>true</item> <!-- Multiplicación -->
-    </string-array>
+
     <integer name="valor_maximo_predeterminado">10</integer>
     <integer name="valor_minimo_predeterminado">0</integer>
     <integer name="acertadas_predeterminado">0</integer>
@@ -21,4 +12,8 @@
     <bool name="suma_permitida">true</bool>
     <bool name="resta_permitida">true</bool>
     <bool name="multiplicacion_permitida">false</bool>
+    <!-- Nuevas claves para las operaciones permitidas -->
+    <string name="suma_permitida_simbolo">+</string>
+    <string name="resta_permitida_simbolo">-</string>
+    <string name="multiplicacion_permitida_simbolo">*</string>
 </resources>

@@ -114,25 +114,35 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun generarOperacion(): String {
-        val operacionesPermitidas = getResources().getStringArray(R.array.operaciones_permitidas)
-        val sumaPermitida = resources.getBoolean(R.bool.suma_permitida)
-        val restaPermitida = resources.getBoolean(R.bool.resta_permitida)
-        val multiplicacionPermitida = resources.getBoolean(R.bool.multiplicacion_permitida)
-
-        // Filtrar las operaciones permitidas según las preferencias
-        val operacionesFiltradas = mutableListOf<String>()
-        if (sumaPermitida) operacionesFiltradas.add("+")
-        if (restaPermitida) operacionesFiltradas.add("-")
-        if (multiplicacionPermitida) operacionesFiltradas.add("*")
-
-        // Verificar si hay operaciones permitidas
-        if (operacionesFiltradas.isEmpty()) {
-            // Si no hay operaciones permitidas, retornar cadena vacía o manejar según tu lógica
-            return ""
+        //¿Que operaciones se permiten?
+        var sePermiteSuma = sharedPreferences.getBoolean("suma_permitida", true)
+        var sePermiteResta = sharedPreferences.getBoolean("resta_permitida", true)
+        var sePermiteMultiplicacion = sharedPreferences.getBoolean("multiplicacion_permitida", false)
+        //Genero una mutable list para meter los simbolos de las permitidas
+        var mutableConSignosPermitidos = mutableListOf<String>()
+        if(sePermiteSuma){
+            var simboloSuma = sharedPreferences.getString("suma_permitida_simbolo", "+")
+            if (simboloSuma != null) {
+                mutableConSignosPermitidos.add(simboloSuma)
+            }
         }
-
-        val randomOperationIndex = random.nextInt(operacionesFiltradas.size)
-        val operacionSeleccionada = operacionesFiltradas[randomOperationIndex]
+        if(sePermiteResta){
+            var simboloResta = sharedPreferences.getString("resta_permitida_simbolo", "-")
+            if (simboloResta != null) {
+                mutableConSignosPermitidos.add(simboloResta)
+            }
+        }
+        if(sePermiteMultiplicacion){
+            var simboloMultiplicacion = sharedPreferences.getString("multiplicacion_permitida_simbolo", "*")
+            if (simboloMultiplicacion != null) {
+                mutableConSignosPermitidos.add(simboloMultiplicacion)
+            }
+        }
+        if (mutableConSignosPermitidos.isEmpty()){
+            return "No se han escogido operaciones"
+        }
+        val randomOperationIndex = random.nextInt(mutableConSignosPermitidos.size)
+        val operacionSeleccionada = mutableConSignosPermitidos[randomOperationIndex]
 
         Log.e("generarOperacion()", "Return: $operacionSeleccionada")
         return operacionSeleccionada
@@ -182,8 +192,16 @@ class MainActivity : AppCompatActivity() {
         operandoFuturo2 = generarOperandos()
         operacionFutura = generarOperacion()
 
-        binding.tvCuentaActual.text = "${operandoActual1.toString()} ${operacionActual} ${operandoActual2.toString()} = "
-        binding.tvCuentaSiguiente.text = "${operandoFuturo1.toString()} ${operacionFutura} ${operandoFuturo2.toString()} = "
+        if(operacionActual == "No se han escogido operaciones"){
+            binding.tvCuentaActual.text = operacionActual
+            binding.tvCuentaAnterior.visibility = View.GONE
+            binding.tvCuentaSiguiente.visibility = View.GONE
+        }else{
+            binding.tvCuentaAnterior.visibility = View.VISIBLE
+            binding.tvCuentaSiguiente.visibility = View.VISIBLE
+            binding.tvCuentaActual.text = "${operandoActual1.toString()} ${operacionActual} ${operandoActual2.toString()} = "
+            binding.tvCuentaSiguiente.text = "${operandoFuturo1.toString()} ${operacionFutura} ${operandoFuturo2.toString()} = "
+        }
     }
 
     fun pintarCuentasBoton(){
@@ -224,7 +242,7 @@ class MainActivity : AppCompatActivity() {
             when (buttonText) {
                 "=" -> {
                     // Realizar cálculos cuando se presiona el botón "="
-                    if (currentText.isNotEmpty()) {
+                    if (currentText.isNotEmpty() && operacionActual != "No se han escogido operaciones") {
                         Log.e("entra en el =", "Entra en el igual")
                         respuestaUsuario = currentText.toInt()
                         Log.e("Respuesta del usuario", "$respuestaUsuario")
