@@ -34,7 +34,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTiempoRestante"
         android:text="Acertadas"
-        android:layout_marginTop="15dp"
+        android:layout_margin="20dp"
         android:textSize="16sp">
     </TextView>
 
@@ -45,53 +45,46 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvAcertadas"
         android:text="Falladas"
-        android:layout_marginTop="15dp"
+        android:layout_margin="20dp"
         android:textSize="16sp">
     </TextView>
 
     <TextView
-        android:id="@+id/tvPrimerOperando"
+        android:id="@+id/tvCuentaAnterior"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tvFalladas"
         app:layout_constraintStart_toStartOf="parent"
-        android:textSize="16dp"
-        android:text="1"
-        android:layout_margin="20dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="26dp"
+        android:textSize="20sp"
+        android:text="Cuenta anterior">
     </TextView>
 
     <TextView
-        android:id="@+id/tvOperacion"
+        android:id="@+id/tvCuentaActual"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tvFalladas"
-        app:layout_constraintStart_toEndOf="@id/tvPrimerOperando"
-        android:textSize="16dp"
-        android:text="-"
-        android:layout_margin="20dp">
+        app:layout_constraintTop_toBottomOf="@id/tvCuentaAnterior"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/edtEntradaUsuario"
+        android:layout_marginTop="52dp"
+        android:textSize="20sp"
+        android:text="Cuenta actual">
     </TextView>
 
     <TextView
-        android:id="@+id/tvSegundoOperando"
+        android:id="@+id/tvCuentaSiguiente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tvFalladas"
-        app:layout_constraintStart_toEndOf="@id/tvOperacion"
-        android:textSize="16dp"
-        android:text="0"
-        android:layout_margin="20dp">
+        app:layout_constraintTop_toBottomOf="@id/tvCuentaActual"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="52dp"
+        android:textSize="20sp"
+        android:text="Cuenta futura">
     </TextView>
 
-    <TextView
-        android:id="@+id/tvIgual"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tvFalladas"
-        app:layout_constraintStart_toEndOf="@id/tvSegundoOperando"
-        android:textSize="16dp"
-        android:text="="
-        android:layout_margin="20dp">
-    </TextView>
 
 
     <EditText
@@ -100,9 +93,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="Resultado"
+        app:layout_constraintStart_toEndOf="@id/tvCuentaActual"
+        app:layout_constraintTop_toTopOf="@id/tvCuentaActual"
+        app:layout_constraintBottom_toBottomOf="@id/tvCuentaActual"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tvIgual"
-        app:layout_constraintTop_toBottomOf="@id/tvFalladas"
         android:inputType="none"
         android:focusable="false"
         android:focusableInTouchMode="false"/>

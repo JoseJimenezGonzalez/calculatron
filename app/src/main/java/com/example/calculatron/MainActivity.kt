@@ -25,10 +25,19 @@ class MainActivity : AppCompatActivity() {
     private var acertadas = 0
     private var falladas = 0
 
-    // Nuevas variables para almacenar cuentas anteriores y siguientes
-    private var operacionActual = ""
+    // Nuevas
+    var operacionActual = ""
     var operandoActual1 = 0
     var operandoActual2 = 0
+    // Futuras
+    var operacionFutura = ""
+    var operandoFuturo1 = 0
+    var operandoFuturo2 = 0
+    // Pasado
+    var acertoLaUltima = false
+    var cuentaPasada = ""
+    //Respuesta de usuario
+    var respuestaUsuario = 0
 
     private val nombrePref = "mis_preferencias"
     private lateinit var sharedPreferences: SharedPreferences
@@ -68,6 +77,12 @@ class MainActivity : AppCompatActivity() {
 
             override fun onFinish() {
                 binding.tvTiempoRestante.text = "Se ha agotado el tiempo!"
+
+                // Pasar a la otra actividad y enviar datos
+                val intent = Intent(this@MainActivity, MainActivity3::class.java)
+                intent.putExtra("acertadas", acertadas)
+                intent.putExtra("falladas", falladas)
+                startActivity(intent)
             }
         }.start()
 
@@ -76,27 +91,18 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        //Meter codigo
+        //Meter codigo aquí
+        pintarCuentas()
+        Log.e("Mierda", "Return: $operacionActual")
+        Log.e("Mierda", "Return: $operacionFutura")
 
 
-        operandoActual1 = generarOperandos()
-        operandoActual2 = generarOperandos()
-        generarOperacion()
-
-        Log.e("operacion actual", operacionActual)
-        Log.e("Valor operandoActual1", operandoActual1.toString())
-        Log.e("Valor operandoActual2", operandoActual2.toString())
-
-        binding.tvPrimerOperando.text = operandoActual1.toString()
-        binding.tvSegundoOperando.text = operandoActual2.toString()
-
-        binding.tvOperacion.text = operacionActual
     }
-    fun generarOperacion(){
+    fun generarOperacion(): String{
         val operacionesPermitidas = getResources().getStringArray(R.array.operaciones_permitidas)
         val randomOperationIndex = random.nextInt(operacionesPermitidas.size)
         Log.e("generarOperacion()", "Return: ${operacionesPermitidas[randomOperationIndex]}")
-        operacionActual = operacionesPermitidas[randomOperationIndex]
+        return operacionesPermitidas[randomOperationIndex]
     }
 
     fun generarOperandos(): Int {
@@ -113,38 +119,55 @@ class MainActivity : AppCompatActivity() {
 
 
     fun comprobarResultado(respuestaUsuario: Int) {
-        when (operacionActual) {
-            "+" -> {
-                val calculoResultado = operandoActual1 + operandoActual2
-                if(respuestaUsuario == calculoResultado){
-                    acertadas++
-                    binding.tvAcertadas.text = "Acertadas: $acertadas"
-                }else{
-                    falladas++
-                    binding.tvFalladas.text = "Falladas: $falladas"
-                }
-            }
-            "-" -> {
-                val calculoResultado = operandoActual1 - operandoActual2
-                if(respuestaUsuario == calculoResultado){
-                    acertadas++
-                    binding.tvAcertadas.text = "Acertadas: $acertadas"
-                }else{
-                    falladas++
-                    binding.tvFalladas.text = "Falladas: $falladas"
-                }
-            }
-            "*" -> {
-                val calculoResultado = operandoActual1 * operandoActual2
-                if(respuestaUsuario == calculoResultado){
-                    acertadas++
-                    binding.tvAcertadas.text = "Acertadas: $acertadas"
-                }else{
-                    falladas++
-                    binding.tvFalladas.text = "Falladas: $falladas"
-                }
-            }
+        Log.e("Dentro de comprobar resultado", "Operacion actual: $operacionActual")
+        Log.e("Dentro de comprobar resultado", "Respuesta usuario: $respuestaUsuario")
+        val calculoResultado = when (operacionActual) {
+            "+" -> operandoActual1 + operandoActual2
+            "-" -> operandoActual1 - operandoActual2
+            "*" -> operandoActual1 * operandoActual2
+            else -> throw IllegalArgumentException("Operación no soportada: $operacionActual")
         }
+        Log.e("Dentro de comprobar resultado", "Calculo resultado: $calculoResultado")
+        if (respuestaUsuario == calculoResultado) {
+            acertadas++
+        } else {
+            falladas++
+        }
+
+        binding.tvAcertadas.text = "Acertadas: $acertadas"
+        binding.tvFalladas.text = "Falladas: $falladas"
+    }
+
+
+    fun pintarCuentas(){
+        operandoActual1 = generarOperandos()
+        operandoActual2 = generarOperandos()
+        operacionActual = generarOperacion()
+
+        operandoFuturo1 = generarOperandos()
+        operandoFuturo2 = generarOperandos()
+        operacionFutura = generarOperacion()
+
+        binding.tvCuentaActual.text = "${operandoActual1.toString()} ${operacionActual} ${operandoActual2.toString()} = "
+        binding.tvCuentaSiguiente.text = "${operandoFuturo1.toString()} ${operacionFutura} ${operandoFuturo2.toString()} = "
+    }
+
+    fun pintarCuentasBoton(){
+
+        cuentaPasada = "${operandoActual1.toString()} $operacionActual ${operandoActual2.toString()} = $respuestaUsuario"
+        binding.tvCuentaAnterior.text = cuentaPasada
+
+
+        operacionActual = operacionFutura
+        operandoActual1 = operandoFuturo1
+        operandoActual2 = operandoFuturo2
+        binding.tvCuentaActual.text = "${operandoActual1.toString()} ${operacionActual} ${operandoActual2.toString()} = "
+
+
+        operandoFuturo1 = generarOperandos()
+        operandoFuturo2 = generarOperandos()
+        operacionFutura = generarOperacion()
+        binding.tvCuentaSiguiente.text = "${operandoFuturo1.toString()} ${operacionFutura} ${operandoFuturo2.toString()} = "
     }
 
 
@@ -168,8 +191,11 @@ class MainActivity : AppCompatActivity() {
                 "=" -> {
                     // Realizar cálculos cuando se presiona el botón "="
                     if (currentText.isNotEmpty()) {
-                        val respuestaUsuario = currentText.toInt()
+                        Log.e("entra en el =", "Entra en el igual")
+                        respuestaUsuario = currentText.toInt()
+                        Log.e("Respuesta del usuario", "$respuestaUsuario")
                         comprobarResultado(respuestaUsuario)
+                        pintarCuentasBoton()
                     }
                     // Limpiar el texto del EditText
                     editText.setText("")
@@ -177,7 +203,6 @@ class MainActivity : AppCompatActivity() {
                 "C" -> {
                     // Limpiar el texto del EditText y resetear la operación actual
                     editText.setText("")
-                    operacionActual = ""
                 }
                 "BS" -> {
                     // Eliminar el último carácter cuando se presiona el botón "BS"
@@ -188,7 +213,6 @@ class MainActivity : AppCompatActivity() {
                 else -> {
                     // Agregar el texto del botón al EditText y actualizar la operación actual
                     editText.setText(currentText + buttonText)
-                    operacionActual = buttonText
                 }
             }
         }
