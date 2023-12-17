@@ -119,22 +119,6 @@
         <!-- Botones existentes -->
 
         <Button
-            android:text="C"
-            android:onClick="onButtonClick" />
-
-        <Button
-            android:text="BS"
-            android:onClick="onButtonClick" />
-
-        <Button
-            android:text="/"
-            android:onClick="onButtonClick" />
-
-        <Button
-            android:text="x"
-            android:onClick="onButtonClick" />
-
-        <Button
             android:text="7"
             android:onClick="onButtonClick" />
 
@@ -142,12 +126,14 @@
             android:text="8"
             android:onClick="onButtonClick" />
 
+
+
         <Button
             android:text="9"
             android:onClick="onButtonClick" />
 
         <Button
-            android:text="-"
+            android:text="8"
             android:onClick="onButtonClick" />
 
         <Button
@@ -163,7 +149,7 @@
             android:onClick="onButtonClick" />
 
         <Button
-            android:text="+"
+            android:text="5"
             android:onClick="onButtonClick" />
 
         <Button
@@ -172,6 +158,10 @@
 
         <Button
             android:text="2"
+            android:onClick="onButtonClick" />
+
+        <Button
+            android:text="3"
             android:onClick="onButtonClick" />
 
         <Button
@@ -190,9 +180,6 @@
             android:text="0"
             android:onClick="onButtonClick" />
 
-        <Button
-            android:text="."
-            android:onClick="onButtonClick" />
     </GridLayout>
 
 
