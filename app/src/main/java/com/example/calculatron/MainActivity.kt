@@ -1,5 +1,6 @@
 package com.example.calculatron
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -8,6 +9,8 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.EditText
 import android.widget.GridLayout
@@ -40,6 +43,8 @@ class MainActivity : AppCompatActivity() {
     var cuentaPasada = ""
     //Respuesta de usuario
     var respuestaUsuario = 0
+    //Eleccion spinner
+    var eleccionSpinner = 0
 
     private val nombrePref = "mis_preferencias"
     private lateinit var sharedPreferences: SharedPreferences
@@ -53,6 +58,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         sharedPreferences = getSharedPreferences(nombrePref, Context.MODE_PRIVATE)
+        eleccionSpinner = sharedPreferences.getInt("posicion_seleccionada", 0)
+        Log.e("Seleccion spinner", "numeroOpcionSeleccionada: $eleccionSpinner")
+        if(eleccionSpinner != 0){
+            val fadeIn = ObjectAnimator.ofFloat(binding.tvTiempoRestante, "alpha", 0f, 1f)
+            fadeIn.duration = 1000  // Duración de la animación en milisegundos
+            fadeIn.repeatCount = ObjectAnimator.INFINITE
+            fadeIn.repeatMode = ObjectAnimator.RESTART
+            fadeIn.start()
+        }
 
         //Teclado y entrada de datos de usuario
         val edtInput: EditText = findViewById(R.id.edtEntradaUsuario)

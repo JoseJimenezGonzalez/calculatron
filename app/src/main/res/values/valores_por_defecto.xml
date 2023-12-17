@@ -16,4 +16,11 @@
     <string name="suma_permitida_simbolo">+</string>
     <string name="resta_permitida_simbolo">-</string>
     <string name="multiplicacion_permitida_simbolo">*</string>
+    <!-- Opciones de animación -->
+    <string-array name="opciones_animacion">
+        <item>Sin animación</item>
+        <item>Faded</item>
+        <!-- Agrega más opciones según sea necesario -->
+    </string-array>
+    <integer name="posicion_seleccionada">0</integer>
 </resources>

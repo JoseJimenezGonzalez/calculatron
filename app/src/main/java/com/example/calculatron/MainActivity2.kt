@@ -4,8 +4,11 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
+import android.util.Log
+import android.view.animation.AnimationUtils
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.core.content.edit
 import com.example.calculatron.databinding.ActivityMain2Binding
@@ -15,6 +18,9 @@ class MainActivity2 : AppCompatActivity() {
     private val nombrePref = "mis_preferencias"
     var esTiempoCorrecto = true
     var esMaxYMinCorrecto = true
+    //Esta es para guardar la opcion seleccionada del spinner
+    var opcionSeleccionada: String = ""
+    var numeroOpcionSeleccionada = 0
 
     private lateinit var binding: ActivityMain2Binding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +36,38 @@ class MainActivity2 : AppCompatActivity() {
         binding.sumarCheckbox.isChecked = sharedPreferences.getBoolean("suma_permitida", true)
         binding.restarCheckbox.isChecked = sharedPreferences.getBoolean("resta_permitida", true)
         binding.multiplicarCheckbox.isChecked = sharedPreferences.getBoolean("multiplicacion_permitida", false)
+
+        //Configurar el spinner
+        //Obtenemos el spinner
+        val spinner = findViewById<Spinner>(R.id.spinner)
+        //Creamos un array con el que vamos a inflar al spinner
+        val opcionesAnimacion = resources.getStringArray(R.array.opciones_animacion)
+        // Crear un ArrayAdapter utilizando la lista de opciones y el diseño predeterminado
+        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, opcionesAnimacion)
+        // Aplicar el adaptador al Spinner
+        spinner.adapter = adapter
+
+        // Configurar un listener para manejar la selección de elementos en el Spinner
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: android.view.View?, position: Int, id: Long) {
+                // Obtener la opción seleccionada
+                val selectedItem = opcionesAnimacion[position]
+
+                // Asignar la opción seleccionada
+                opcionSeleccionada = selectedItem
+                numeroOpcionSeleccionada = position
+
+                // Mostrar la opción seleccionada
+                Toast.makeText(this@MainActivity2, "Seleccionaste: $selectedItem", Toast.LENGTH_SHORT).show()
+
+                // Agregar la siguiente línea para verificar el valor
+                Log.e("Seleccion spinner", "numeroOpcionSeleccionada: $numeroOpcionSeleccionada")
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Manejar caso en que no se selecciona nada
+            }
+        }
 
 
         binding.btnGuardarConfiguracion.setOnClickListener {
@@ -88,6 +126,7 @@ class MainActivity2 : AppCompatActivity() {
                     putBoolean("suma_permitida", binding.sumarCheckbox.isChecked)
                     putBoolean("resta_permitida", binding.restarCheckbox.isChecked)
                     putBoolean("multiplicacion_permitida", binding.multiplicarCheckbox.isChecked)
+                    putInt("posicion_seleccionada", numeroOpcionSeleccionada)
                     apply()
                 }
 

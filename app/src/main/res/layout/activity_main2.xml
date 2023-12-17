@@ -126,11 +126,20 @@
         android:layout_marginTop="15dp">
     </TextView>
 
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvAnimacion"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp">
+    </Spinner>
+
     <Button
         android:id="@+id/btnGuardarConfiguracion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tvAnimacion"
+        app:layout_constraintTop_toBottomOf="@id/spinner"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="20dp"
