@@ -40,7 +40,7 @@ class MainActivity3 : AppCompatActivity() {
         val porcentajeAciertosTotal = calcularPorcentajeAciertos(nuevoValorAcertadas, nuevoValorFalladas)
         binding.tvAcertadasTotal.text = "Acertadas totales: ${nuevoValorAcertadas.toString()}"
         binding.tvFalladasTotal.text = "Falladas totales: ${nuevoValorFalladas.toString()}"
-        binding.tvPorcentajeTotal.text = "Porcentaje de aciertos: $porcentajeAciertosTotal%"
+        binding.tvPorcentajeTotal.text = "Porcentaje de aciertos totales: $porcentajeAciertosTotal%"
         //Actualizo la shared
         sharedPreferences.edit {
             putInt("acertadas_predeterminado", nuevoValorAcertadas)

@@ -114,7 +114,7 @@
         android:rowCount="5"
         android:orientation="horizontal"
         android:useDefaultMargins="false"
-        android:layout_margin="25dp">
+        android:layout_margin="30dp">
 
         <!-- Botones existentes -->
 
@@ -133,7 +133,7 @@
             android:onClick="onButtonClick" />
 
         <Button
-            android:text="8"
+            android:text="-"
             android:onClick="onButtonClick" />
 
         <Button
@@ -149,7 +149,7 @@
             android:onClick="onButtonClick" />
 
         <Button
-            android:text="5"
+            android:text="C"
             android:onClick="onButtonClick" />
 
         <Button
@@ -165,19 +165,19 @@
             android:onClick="onButtonClick" />
 
         <Button
-            android:text="3"
-            android:onClick="onButtonClick" />
-
-        <Button
-            android:layout_gravity="fill_vertical"
-            android:layout_rowSpan="2"
-            android:text="="
+            android:text="BS"
             android:onClick="onButtonClick" />
 
         <Button
             android:layout_gravity="fill_horizontal"
             android:layout_columnSpan="2"
-            android:text="0"
+            android:text = "0"
+            android:onClick="onButtonClick" />
+
+        <Button
+            android:layout_gravity="fill_horizontal"
+            android:layout_columnSpan="2"
+            android:text = "="
             android:onClick="onButtonClick" />
 
     </GridLayout>
