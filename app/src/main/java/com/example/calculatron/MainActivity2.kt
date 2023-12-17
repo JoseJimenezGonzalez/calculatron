@@ -16,7 +16,6 @@ class MainActivity2 : AppCompatActivity() {
     private val nombrePref = "mis_preferencias"
 
     private lateinit var binding: ActivityMain2Binding
-    @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -30,17 +29,15 @@ class MainActivity2 : AppCompatActivity() {
             //Hay problema si no cambio algo
             // Modificar el tiempo predeterminado
             val nuevoTiempoPredeterminado = binding.tietCuentaAtras.text.toString().toInt() * 1000
-            val claveTiempoPredeterminado = getString(R.integer.tiempo_predeterminado)
             //Modificar el valor maximo predeterminado
             val nuevoValorMaximo = binding.tietMaximo.text.toString().toInt()
-            val claveValorMaximo = getString(R.integer.valor_maximo_predeterminado)
             //Modificar el valor minimo predeterminado
             val nuevoValorMinimo = binding.tietMinimo.text.toString().toInt()
-            val claveValorMinimo = getString(R.integer.valor_minimo_predeterminado)
             sharedPreferences.edit {
-                putInt(claveTiempoPredeterminado, nuevoTiempoPredeterminado)
-                putInt(claveValorMaximo, nuevoValorMaximo)
-                putInt(claveValorMinimo, nuevoValorMinimo)
+                putInt("tiempo_predeterminado", nuevoTiempoPredeterminado)
+                putInt("valor_maximo_predeterminado", nuevoValorMaximo)
+                putInt("valor_minimo_predeterminado", nuevoValorMinimo)
+                apply()
             }
             //Volver a la main activity
             val intent = Intent(this@MainActivity2, MainActivity::class.java)

@@ -1,6 +1,5 @@
 package com.example.calculatron
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -35,7 +34,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
 
 
-    @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -60,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Obtener el tiempo predeterminado guardado en SharedPreferences
-        tiempoRestante = sharedPreferences.getInt(getString(R.integer.tiempo_predeterminado), 20000)
+        tiempoRestante = sharedPreferences.getInt("tiempo_predeterminado", 20000)
 
         object : CountDownTimer(tiempoRestante.toLong(), 1000) {
 
@@ -86,10 +84,12 @@ class MainActivity : AppCompatActivity() {
         generarOperacion()
 
         Log.e("operacion actual", operacionActual)
-        Log.e("operandos actuales", "op1$operandoActual1, op2$operandoActual2")
+        Log.e("Valor operandoActual1", operandoActual1.toString())
+        Log.e("Valor operandoActual2", operandoActual2.toString())
 
         binding.tvPrimerOperando.text = operandoActual1.toString()
         binding.tvSegundoOperando.text = operandoActual2.toString()
+
         binding.tvOperacion.text = operacionActual
     }
     fun generarOperacion(){
