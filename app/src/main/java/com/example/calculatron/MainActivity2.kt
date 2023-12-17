@@ -46,7 +46,9 @@ class MainActivity2 : AppCompatActivity() {
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, opcionesAnimacion)
         // Aplicar el adaptador al Spinner
         spinner.adapter = adapter
-
+        // Recuperar la posición guardada y establecerla en el Spinner
+        val posicionGuardada = sharedPreferences.getInt("posicion_seleccionada", 0)
+        spinner.setSelection(posicionGuardada)
         // Configurar un listener para manejar la selección de elementos en el Spinner
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: android.view.View?, position: Int, id: Long) {
